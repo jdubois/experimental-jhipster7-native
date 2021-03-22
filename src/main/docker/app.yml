@@ -2,14 +2,13 @@
 version: '3.8'
 services:
   nativejudubois-app:
-    image: docker.io/library/nativejudubois:0.0.1-SNAPSHOT
+    image: nativejudubois
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,no-liquibase
+      - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://nativejudubois-postgresql:5432/nativejudubois
-      - SPRING_LIQUIBASE_ENABLED=false
-      - SPRING_JPA_DATABASE_PLATFORM=
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://nativejudubois-postgresql:5432/nativejudubois
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
