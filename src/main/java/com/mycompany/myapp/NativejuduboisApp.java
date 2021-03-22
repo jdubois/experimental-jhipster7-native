@@ -23,7 +23,8 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @TypeHints({
-    @TypeHint(types = HttpStatus.class)
+    @TypeHint(types = HttpStatus.class),
+    @TypeHint(typeNames = "javax.servlet.LocalStrings")
 })
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class NativejuduboisApp {
