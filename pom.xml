@@ -12,13 +12,6 @@
     <name>Nativejudubois</name>
 
     <repositories>
-        <repository>
-            <id>ossrh-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
         <!-- jhipster-needle-maven-repository -->
     </repositories>
 
@@ -32,8 +25,8 @@
         <!-- Build properties -->
         <maven.version>3.3.9</maven.version>
         <java.version>11</java.version>
-        <node.version>v14.15.0</node.version>
-        <npm.version>7.6.2</npm.version>
+        <node.version>v14.16.0</node.version>
+        <npm.version>7.6.3</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -51,13 +44,13 @@
         <profile.tls />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>7.0.0-SNAPSHOT</jhipster-dependencies.version>
+        <jhipster-dependencies.version>7.0.0</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <spring-boot.version>2.4.3</spring-boot.version>
+        <spring-boot.version>2.4.4</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <hibernate.version>5.4.28.Final</hibernate.version>
+        <hibernate.version>5.4.29.Final</hibernate.version>
         <!-- The javassist version should match the one managed by
         https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
         <javassist.version>3.27.0-GA</javassist.version>
@@ -91,12 +84,6 @@
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.8.0.2131</sonar-maven-plugin.version>
-        <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
-        <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
-        <jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
-        <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
-        <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
-        <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
         <!-- jhipster-needle-maven-property -->
     </properties>
 
@@ -549,10 +536,6 @@
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
-                            <configuration>
-                                <!-- Sets the path to the file which contains the execution data. -->
-                                <destFile>${jacoco.utReportFile}</destFile>
-                            </configuration>
                         </execution>
                         <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
                         <execution>
@@ -561,20 +544,12 @@
                             <goals>
                                 <goal>report</goal>
                             </goals>
-                            <configuration>
-                                <dataFile>${jacoco.utReportFile}</dataFile>
-                                <outputDirectory>${jacoco.utReportFolder}</outputDirectory>
-                            </configuration>
                         </execution>
                         <execution>
                             <id>pre-integration-tests</id>
                             <goals>
                                 <goal>prepare-agent-integration</goal>
                             </goals>
-                            <configuration>
-                                <!-- Sets the path to the file which contains the execution data. -->
-                                <destFile>${jacoco.itReportFile}</destFile>
-                            </configuration>
                         </execution>
                         <!-- Ensures that the code coverage report for integration tests is created after integration tests have been run -->
                         <execution>
@@ -583,10 +558,6 @@
                             <goals>
                                 <goal>report-integration</goal>
                             </goals>
-                            <configuration>
-                                <dataFile>${jacoco.itReportFile}</dataFile>
-                                <outputDirectory>${jacoco.itReportFolder}</outputDirectory>
-                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -780,7 +751,6 @@
                     <configuration>
                         <!-- Force alphabetical order to have a reproducible build -->
                         <runOrder>alphabetical</runOrder>
-                        <reportsDirectory>${junit.utReportFolder}</reportsDirectory>
                         <excludes>
                             <exclude>**/*IT*</exclude>
                             <exclude>**/*IntTest*</exclude>
@@ -797,7 +767,6 @@
                         <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                         <!-- Force alphabetical order to have a reproducible build -->
                         <runOrder>alphabetical</runOrder>
-                        <reportsDirectory>${junit.itReportFolder}</reportsDirectory>
                         <includes>
                             <include>**/*IT*</include>
                             <include>**/*IntTest*</include>
@@ -955,33 +924,9 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-undertow</artifactId>
                 </dependency>
-                <dependency>
-                    <groupId>org.springframework.experimental</groupId>
-                    <artifactId>spring-native</artifactId>
-                    <version>0.9.0</version>
-                </dependency>
             </dependencies>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.springframework.experimental</groupId>
-                        <artifactId>spring-aot-maven-plugin</artifactId>
-                        <version>0.9.0</version>
-                        <executions>
-                            <execution>
-                                <id>test-generate</id>
-                                <goals>
-                                    <goal>test-generate</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>generate</id>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <configuration>
@@ -1002,14 +947,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <image>
-                                <builder>paketobuildpacks/builder:tiny</builder>
-                                <env>
-                                    <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                                </env>
-                            </image>
-                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>com.github.eirslett</groupId>
@@ -1067,20 +1004,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <repositories>
-                <repository>
-                    <id>spring-release</id>
-                    <name>Spring release</name>
-                    <url>https://repo.spring.io/release</url>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>spring-release</id>
-                    <name>Spring release</name>
-                    <url>https://repo.spring.io/release</url>
-                </pluginRepository>
-            </pluginRepositories>
             <properties>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.no-liquibase}</spring.profiles.active>
