@@ -12,7 +12,11 @@
     <name>Nativejudubois</name>
 
     <repositories>
-        <!-- jhipster-needle-maven-repository -->
+        <repository>
+            <id>spring-release</id>
+            <name>Spring release</name>
+            <url>https://repo.spring.io/release</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -129,18 +133,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-oas</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -294,6 +286,12 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+
+        <dependency>
+            <groupId>org.springframework.experimental</groupId>
+            <artifactId>spring-native</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -811,7 +809,7 @@
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-undertow</artifactId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -833,11 +831,30 @@
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-undertow</artifactId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
             </dependencies>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.springframework.experimental</groupId>
+                        <artifactId>spring-aot-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <executions>
+                            <execution>
+                                <id>test-generate</id>
+                                <goals>
+                                    <goal>test-generate</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>generate</id>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <configuration>
@@ -858,6 +875,15 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <image>
+                                <builder>paketobuildpacks/builder:tiny</builder>
+                                <env>
+                                    <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                                    <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:IncludeResourceBundles=javax.servlet.http.LocalStrings -H:IncludeResourceBundles=javax.servlet.LocalStrings</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                </env>
+                            </image>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>pl.project13.maven</groupId>
@@ -865,6 +891,13 @@
                     </plugin>
                 </plugins>
             </build>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>spring-release</id>
+                    <name>Spring release</name>
+                    <url>https://repo.spring.io/release</url>
+                </pluginRepository>
+            </pluginRepositories>
             <properties>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.no-liquibase}</spring.profiles.active>
@@ -912,7 +945,7 @@
                 <!-- The following dependency is added due to issue #9175-->
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-undertow</artifactId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
             </dependencies>
             <build>
