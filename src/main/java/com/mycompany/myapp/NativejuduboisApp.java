@@ -15,10 +15,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.nativex.hint.TypeHint;
+import org.springframework.nativex.hint.TypeHints;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
+@TypeHints({
+    @TypeHint(types = HttpStatus.class)
+})
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class NativejuduboisApp {
 

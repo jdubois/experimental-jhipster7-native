@@ -12,7 +12,11 @@
     <name>Nativejudubois</name>
 
     <repositories>
-        <!-- jhipster-needle-maven-repository -->
+        <repository>
+            <id>spring-release</id>
+            <name>Spring release</name>
+            <url>https://repo.spring.io/release</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -310,6 +314,12 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+
+        <dependency>
+            <groupId>org.springframework.experimental</groupId>
+            <artifactId>spring-native</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -924,11 +934,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-undertow</artifactId>
                 </dependency>
-                <dependency>
-                    <groupId>org.springframework.experimental</groupId>
-                    <artifactId>spring-native</artifactId>
-                    <version>0.9.0</version>
-                </dependency>
             </dependencies>
             <build>
                 <plugins>
@@ -1036,13 +1041,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <repositories>
-                <repository>
-                    <id>spring-release</id>
-                    <name>Spring release</name>
-                    <url>https://repo.spring.io/release</url>
-                </repository>
-            </repositories>
             <pluginRepositories>
                 <pluginRepository>
                     <id>spring-release</id>
