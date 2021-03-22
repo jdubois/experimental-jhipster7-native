@@ -85,6 +85,9 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         } catch (UnsupportedEncodingException e) {
             /* try without decoding if this ever happens */
             fullExecutablePath = this.getClass().getResource("").getPath();
+        } catch (Exception e) {
+            log.warn("Could not load resources - if this is running in GraalVM, this is normal");
+            return "";
         }
         String rootPath = Paths.get(".").toUri().normalize().getPath();
         String extractedPath = fullExecutablePath.replace(rootPath, "");
